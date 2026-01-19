@@ -78,7 +78,7 @@ def load_models_from_json(json_path: str) -> List[LLMModel]:
     """Load models from a JSON file"""
     with open(json_path, 'r') as f:
         models_data = json.load(f)
-    
+
     models = []
     for model_data in models_data:
         # Convert string provider to ModelProvider enum
@@ -184,11 +184,11 @@ def get_model(model_name: str, model_provider: ModelProvider, api_keys: dict = N
         if not api_key:
             print(f"API Key Error: Please make sure OPENROUTER_API_KEY is set in your .env file or provided via API keys.")
             raise ValueError("OpenRouter API key not found. Please make sure OPENROUTER_API_KEY is set in your .env file or provided via API keys.")
-        
+
         # Get optional site URL and name for headers
         site_url = os.getenv("YOUR_SITE_URL", "https://github.com/virattt/ai-hedge-fund")
         site_name = os.getenv("YOUR_SITE_NAME", "AI Hedge Fund")
-        
+
         return ChatOpenAI(
             model=model_name,
             openai_api_key=api_key,
@@ -209,7 +209,7 @@ def get_model(model_name: str, model_provider: ModelProvider, api_keys: dict = N
     elif model_provider == ModelProvider.GIGACHAT:
         if os.getenv("GIGACHAT_USER") or os.getenv("GIGACHAT_PASSWORD"):
             return GigaChat(model=model_name)
-        else: 
+        else:
             api_key = (api_keys or {}).get("GIGACHAT_API_KEY") or os.getenv("GIGACHAT_API_KEY") or os.getenv("GIGACHAT_CREDENTIALS")
             if not api_key:
                 print("API Key Error: Please make sure api_keys is set in your .env file or provided via API keys.")
